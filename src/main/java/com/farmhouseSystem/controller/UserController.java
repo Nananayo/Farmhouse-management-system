@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -112,6 +113,36 @@ public class UserController {
             return R.success(session.getId());
         }
         return R.error("登录失败");
+    }
+    @DeleteMapping
+    @ApiOperation("删除用户")
+    public R<String> delete(long id){
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getId,id);
+        List<User> list = userService.list(queryWrapper);
+        if (list == null){
+            return R.error("删除失败");
+        }
+        userService.removeById(id);
+        return R.success("删除成功");
+    }
+
+    @GetMapping("/info")
+    @ApiOperation("获取当前登录用户信息")
+    public R<User> getCurrentUserInfo(HttpSession session) {
+        // 从Session中获取用户ID
+        Long userId = (Long) session.getAttribute("user");
+        if (userId == null) {
+            return R.error("用户未登录");
+        }
+
+        // 根据用户ID查询用户信息
+        User user = userService.getById(userId);
+        if (user == null) {
+            return R.error("用户信息不存在");
+        }
+
+        return R.success(user);
     }
 
 

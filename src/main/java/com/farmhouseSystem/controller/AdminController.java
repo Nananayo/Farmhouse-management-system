@@ -34,11 +34,11 @@ public class AdminController {
     @PostMapping("/login")
     @ApiOperation("管理员登入")
     public R<String> login(HttpServletRequest request, @RequestBody Admin admin, HttpSession session) {
-
+        System.out.println("admin:"+admin);
         String password = admin.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         LambdaQueryWrapper<Admin> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Admin::getUsername, admin.getUsername());
+        queryWrapper.eq(Admin::getName, admin.getName());
         admin = adminService.getOne(queryWrapper);
         if(admin == null){
             return R.error("用户名不存在");
@@ -46,9 +46,7 @@ public class AdminController {
         if(!admin.getPassword().equals(password)){
             return R.error("密码错误");
         }
-        if(admin.getStatus() ==0){
-            return R.error("账号已禁用");
-        }
+
         request.getSession().setAttribute("admin", admin.getId());
 
         log.info("登录成功...");
@@ -63,6 +61,16 @@ public class AdminController {
         request.getSession().removeAttribute("admin");
         return R.success("退出成功");
     }
-
+    @GetMapping("/info")
+    @ApiOperation("获取个人信息")
+    public R<Admin> getMyInfo(HttpServletRequest request){
+        Long adminId =(Long) request.getSession().getAttribute("admin");
+        System.out.println("admin:"+adminId);
+        if (adminId==null){
+            return R.error("用户未登录");
+        }
+        Admin info = adminService.getById(adminId);
+        return R.success(info);
+    }
 
 }

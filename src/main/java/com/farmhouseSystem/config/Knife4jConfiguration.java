@@ -21,7 +21,7 @@ public class Knife4jConfiguration {
                 // 是否启用Swagger，true启用，false不启用
                 .enable(true)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("这是旅行社管理系统api ")
+                        .title("民宿农家乐平台系统api ")
                         .description("这是项目描述")
                         .termsOfServiceUrl("服务器URL")
                         .contact(new Contact("LiCoffee", null, "qiushiju0828@163.com"))
@@ -31,7 +31,7 @@ public class Knife4jConfiguration {
                 .groupName(groupName)
                 .select()
                 // 这里指定Controller扫描包路径,没有加注解的接口方法也会生成接口文档
-                .apis(RequestHandlerSelectors.basePackage("com.lvxing.travel_agency.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.farmhouseSystem.controller"))
 
                 // 这里指定只有加了注解的才会生成接口文档
                 //.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))

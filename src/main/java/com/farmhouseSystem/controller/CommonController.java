@@ -23,7 +23,7 @@ import java.util.UUID;
 @Slf4j
 @Api(tags = "文件上传下载接口")
 public class CommonController {
-    @Value("${travel.path}")
+    @Value("${farmhouse.path}")
     private String basePath;
 
     @PostMapping("/upload")

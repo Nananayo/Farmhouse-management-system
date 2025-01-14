@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
-
-import io.swagger.models.auth.In;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,32 +16,35 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2024-11-15
+ * @since 2025-01-12
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("admin")
-public class Admin implements Serializable {
+@TableName("store")
+@ApiModel(value="Store对象", description="")
+public class Store implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 高权限用户id
-     */
+    @ApiModelProperty(value = "分店id")
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
-    /**
-     * 用户名
-     */
     private String name;
 
-    /**
-     * 登录用密码
-     */
-    private String password;
+    private Integer status;
 
+    @ApiModelProperty(value = "省级名称")
+    private String provinceName;
+
+    @ApiModelProperty(value = "市级名称")
+    private String cityName;
+
+    @ApiModelProperty(value = "区级名称")
+    private String districtName;
+
+    private String phone;
 
 
 }

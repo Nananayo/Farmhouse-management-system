@@ -33,7 +33,7 @@ public class Orders implements Serializable {
     private Long id;
 
     /**
-     * 订单号
+     * 数量
      */
 
     private Integer number;
@@ -43,30 +43,21 @@ public class Orders implements Serializable {
      */
     private String userName;
 
-    /**
-     * 路线名
-     */
-    private String routeName;
-
-    /**
-     * 分店名
-     */
-    private String branchName;
 
     /**
      * 用户id
      */
     private Long userId;
+    private String userPhone;
 
     /**
-     * 路线id
+     * 服务
      */
-    private Long routeId;
+    private String serviceImg;
 
-    /**
-     * 路线
-     */
-    private String line;
+    private String serviceName;
+
+    private Long serviceId;
 
     /**
      * 订单状态 1待付款，2待派送，3已派送，4已完成，5已取消
