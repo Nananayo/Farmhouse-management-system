@@ -52,16 +52,16 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.lvxing.travel_agency.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.farmhouseSystem.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("旅行社")
+                .title("汐斯塔农家乐")
                 .version("1.0")
-                .description("旅行社接口文档")
+                .description("汐斯塔农家乐接口文档")
                 .build();
     }
 }

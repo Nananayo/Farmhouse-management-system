@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -151,16 +152,16 @@ public class OrdersController {
         int totalNumber = ordersList.stream()
                 .mapToInt(Orders::getNumber)
                 .sum();
-        if (guestRoomService.getById(serviceId) != null){
-            if (totalNumber == 1){
-                return R.error("民宿已被预订");
-            }
-        }
+//        if (guestRoomService.getById(serviceId) != null){
+//            if (totalNumber == 1){
+//                return R.error("民宿已被预订");
+//            }
+//        }
 
         return R.success(totalNumber);
     }
     @GetMapping("/activityPeople")
-    @ApiOperation("判断活动人数")
+    @ApiOperation("判断活动与民宿是否达到最大人数")
     public R<String> countRemainPeople(Orders orders) {
 
         LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<>();
@@ -183,6 +184,30 @@ public class OrdersController {
                 return R.error("活动人数已满");
             }
         }
+        if (guestRoomService.getById(orders.getServiceId()) != null){
+            GuestRoom guestRoom = guestRoomService.getById(orders.getServiceId());
+            System.out.println("民宿房间:"+guestRoom.getMaxNumberRoom());
+            System.out.println("已定房间:"+totalNumber);
+            int i = orders.getNumber() + totalNumber;
+            if (i>guestRoom.getMaxNumberRoom()){
+                return R.error("民宿房间已满");
+            }
+        }
         return R.success("满足条件");
+    }
+    @GetMapping("/userRoom")
+    @ApiOperation("登录用户已订的民宿")
+    public R<List<GuestRoom>> UserRoomList(HttpServletRequest request) {
+        Long userId =(Long) request.getSession().getAttribute("user");
+        LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Orders::getUserId,userId);
+        queryWrapper.eq(Orders::getStatus,2);
+        List<GuestRoom> guestRoomList = new ArrayList<>();
+        for (Orders orders : ordersService.list(queryWrapper)) {
+            if (guestRoomService.getById(orders.getServiceId()) != null){
+                guestRoomList.add(guestRoomService.getById(orders.getServiceId()));
+            }
+        }
+        return R.success(guestRoomList);
     }
 }

@@ -46,6 +46,8 @@ public class GuestRoom implements Serializable {
     @ApiModelProperty(value = "景点类型")
     private String type;
 
+    private Integer maxNumberRoom;
+
     private String desces;
 
     private Integer area;

@@ -85,7 +85,7 @@ public class Orders implements Serializable {
     /**
      * 结账时间
      */
-
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime checkoutTime;
 
     /**
